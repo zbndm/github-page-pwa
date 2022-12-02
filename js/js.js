@@ -1,7 +1,7 @@
 var __awaiter =
   (this && this.__awaiter) ||
-  function(thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function(resolve, reject) {
+  function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
       function fulfilled(value) {
         try {
           step(generator.next(value));
@@ -19,22 +19,22 @@ var __awaiter =
       function step(result) {
         result.done
           ? resolve(result.value)
-          : new P(function(resolve) {
-              resolve(result.value);
-            }).then(fulfilled, rejected);
+          : new P(function (resolve) {
+            resolve(result.value);
+          }).then(fulfilled, rejected);
       }
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   };
-define("common", ["require", "exports"], function(require, exports) {
+define("common", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   function delay(ms) {
-    return __awaiter(this, void 0, void 0, function*() {
+    return __awaiter(this, void 0, void 0, function* () {
       if (typeof window !== "undefined") {
-        return new Promise(exec => window.setTimeout(exec, ms));
+        return new Promise((exec) => window.setTimeout(exec, ms));
       } else {
-        return new Promise(exec => exec());
+        return new Promise((exec) => exec());
       }
     });
   }
@@ -46,7 +46,7 @@ define("common", ["require", "exports"], function(require, exports) {
   }
   exports.CancellationToken = CancellationToken;
 });
-define("random", ["require", "exports"], function(require, exports) {
+define("random", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   class Random {
@@ -64,7 +64,7 @@ define("random", ["require", "exports"], function(require, exports) {
   }
   exports.Random = Random;
 });
-define("lib/clustering", ["require", "exports"], function(require, exports) {
+define("lib/clustering", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   class Vector {
@@ -168,7 +168,7 @@ define("lib/clustering", ["require", "exports"], function(require, exports) {
   exports.KMeans = KMeans;
 });
 // From https://stackoverflow.com/a/9493060/694640
-define("lib/colorconversion", ["require", "exports"], function(
+define("lib/colorconversion", ["require", "exports"], function (
   require,
   exports
 ) {
@@ -278,7 +278,7 @@ define("lib/colorconversion", ["require", "exports"], function(
     return [
       Math.max(0, Math.min(1, r)) * 255,
       Math.max(0, Math.min(1, g)) * 255,
-      Math.max(0, Math.min(1, b)) * 255
+      Math.max(0, Math.min(1, b)) * 255,
     ];
   }
   exports.lab2rgb = lab2rgb;
@@ -302,11 +302,11 @@ define("lib/colorconversion", ["require", "exports"], function(
   }
   exports.rgb2lab = rgb2lab;
 });
-define("settings", ["require", "exports"], function(require, exports) {
+define("settings", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   var ClusteringColorSpace;
-  (function(ClusteringColorSpace) {
+  (function (ClusteringColorSpace) {
     ClusteringColorSpace[(ClusteringColorSpace["RGB"] = 0)] = "RGB";
     ClusteringColorSpace[(ClusteringColorSpace["HSL"] = 1)] = "HSL";
     ClusteringColorSpace[(ClusteringColorSpace["LAB"] = 2)] = "LAB";
@@ -334,7 +334,7 @@ define("settings", ["require", "exports"], function(require, exports) {
   }
   exports.Settings = Settings;
 });
-define("structs/typedarrays", ["require", "exports"], function(
+define("structs/typedarrays", ["require", "exports"], function (
   require,
   exports
 ) {
@@ -371,9 +371,12 @@ define("structs/typedarrays", ["require", "exports"], function(
       return (
         x - 1 >= 0 &&
         this.arr[idx - 1] === value &&
-        (y - 1 >= 0 && this.arr[idx - this.width] === value) &&
-        (x + 1 < this.width && this.arr[idx + 1] === value) &&
-        (y + 1 < this.height && this.arr[idx + this.width] === value)
+        y - 1 >= 0 &&
+        this.arr[idx - this.width] === value &&
+        x + 1 < this.width &&
+        this.arr[idx + 1] === value &&
+        y + 1 < this.height &&
+        this.arr[idx + this.width] === value
       );
     }
   }
@@ -401,8 +404,8 @@ define("colorreductionmanagement", [
   "lib/colorconversion",
   "settings",
   "structs/typedarrays",
-  "random"
-], function(
+  "random",
+], function (
   require,
   exports,
   common_1,
@@ -414,7 +417,7 @@ define("colorreductionmanagement", [
 ) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  class ColorMapResult {}
+  class ColorMapResult { }
   exports.ColorMapResult = ColorMapResult;
   class ColorReducer {
     /**
@@ -466,7 +469,7 @@ define("colorreductionmanagement", [
       settings,
       onUpdate = null
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         const vectors = [];
         let idx = 0;
         let vIdx = 0;
@@ -493,7 +496,7 @@ define("colorreductionmanagement", [
           }
         }
         for (const color of Object.keys(pointsByColor)) {
-          const rgb = color.split(",").map(v => parseInt(v));
+          const rgb = color.split(",").map((v) => parseInt(v));
           // determine vector data based on color space conversion
           let data;
           if (
@@ -605,7 +608,7 @@ define("colorreductionmanagement", [
             rgb = centroid.values;
           }
           // remove decimals
-          rgb = rgb.map(v => Math.floor(v));
+          rgb = rgb.map((v) => Math.floor(v));
           if (restrictToSpecifiedColors) {
             if (settings.kMeansColorRestrictions.length > 0) {
               // there are color restrictions, for each centroid find the color from the color restrictions that's the closest
@@ -624,11 +627,11 @@ define("colorreductionmanagement", [
                 }
                 const distance = Math.sqrt(
                   (centroidLab[0] - restrictionLab[0]) *
-                    (centroidLab[0] - restrictionLab[0]) +
-                    (centroidLab[1] - restrictionLab[1]) *
-                      (centroidLab[1] - restrictionLab[1]) +
-                    (centroidLab[2] - restrictionLab[2]) *
-                      (centroidLab[2] - restrictionLab[2])
+                  (centroidLab[0] - restrictionLab[0]) +
+                  (centroidLab[1] - restrictionLab[1]) *
+                  (centroidLab[1] - restrictionLab[1]) +
+                  (centroidLab[2] - restrictionLab[2]) *
+                  (centroidLab[2] - restrictionLab[2])
                 );
                 if (distance < minDistance) {
                   minDistance = distance;
@@ -675,8 +678,8 @@ define("colorreductionmanagement", [
           const c2 = colorsByIndex[i];
           const distance = Math.sqrt(
             (c1[0] - c2[0]) * (c1[0] - c2[0]) +
-              (c1[1] - c2[1]) * (c1[1] - c2[1]) +
-              (c1[2] - c2[2]) * (c1[2] - c2[2])
+            (c1[1] - c2[1]) * (c1[1] - c2[1]) +
+            (c1[2] - c2[2]) * (c1[2] - c2[2])
           );
           colorDistances[i][j] = distance;
           colorDistances[j][i] = distance;
@@ -685,7 +688,7 @@ define("colorreductionmanagement", [
       return colorDistances;
     }
     static processNarrowPixelStripCleanup(colormapResult) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         // build the color distance matrix, which describes the distance of each color to each other
         const colorDistances = ColorReducer.buildColorDistanceMatrix(
           colormapResult.colorsByIndex
@@ -735,7 +738,7 @@ define("colorreductionmanagement", [
   }
   exports.ColorReducer = ColorReducer;
 });
-define("structs/point", ["require", "exports"], function(require, exports) {
+define("structs/point", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   class Point {
@@ -758,7 +761,7 @@ define("structs/point", ["require", "exports"], function(require, exports) {
   }
   exports.Point = Point;
 });
-define("structs/boundingbox", ["require", "exports"], function(
+define("structs/boundingbox", ["require", "exports"], function (
   require,
   exports
 ) {
@@ -780,7 +783,7 @@ define("structs/boundingbox", ["require", "exports"], function(
   }
   exports.BoundingBox = BoundingBox;
 });
-define("facetmanagement", ["require", "exports", "structs/point"], function(
+define("facetmanagement", ["require", "exports", "structs/point"], function (
   require,
   exports,
   point_1
@@ -788,7 +791,7 @@ define("facetmanagement", ["require", "exports", "structs/point"], function(
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   var OrientationEnum;
-  (function(OrientationEnum) {
+  (function (OrientationEnum) {
     OrientationEnum[(OrientationEnum["Left"] = 0)] = "Left";
     OrientationEnum[(OrientationEnum["Top"] = 1)] = "Top";
     OrientationEnum[(OrientationEnum["Right"] = 2)] = "Right";
@@ -869,7 +872,7 @@ define("facetmanagement", ["require", "exports", "structs/point"], function(
     }
     getFullPathFromBorderSegments(useWalls) {
       const newpath = [];
-      const addPoint = pt => {
+      const addPoint = (pt) => {
         if (useWalls) {
           newpath.push(new point_1.Point(pt.getWallX(), pt.getWallY()));
         } else {
@@ -886,7 +889,7 @@ define("facetmanagement", ["require", "exports", "structs/point"], function(
           } else {
             addPoint(
               lastSegment.originalSegment.points[
-                lastSegment.originalSegment.points.length - 1
+              lastSegment.originalSegment.points.length - 1
               ]
             );
           }
@@ -907,7 +910,7 @@ define("facetmanagement", ["require", "exports", "structs/point"], function(
    *  Result of the facet construction, both as a map and as an array.
    *  Facets in the array can be null when they've been deleted
    */
-  class FacetResult {}
+  class FacetResult { }
   exports.FacetResult = FacetResult;
 });
 define("facetBorderSegmenter", [
@@ -915,8 +918,8 @@ define("facetBorderSegmenter", [
   "exports",
   "common",
   "structs/point",
-  "facetmanagement"
-], function(require, exports, common_2, point_2, facetmanagement_1) {
+  "facetmanagement",
+], function (require, exports, common_2, point_2, facetmanagement_1) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   /**
@@ -954,12 +957,11 @@ define("facetBorderSegmenter", [
       nrOfTimesToHalvePoints = 2,
       onUpdate = null
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         // first chop up the border path in segments each time the neighbour at that point changes
         // (and sometimes even when it doesn't on that side but does on the neighbour's side)
-        const segmentsPerFacet = FacetBorderSegmenter.prepareSegmentsPerFacet(
-          facetResult
-        );
+        const segmentsPerFacet =
+          FacetBorderSegmenter.prepareSegmentsPerFacet(facetResult);
         // now reduce the segment complexity with Haar wavelet reduction to smooth them out and make them
         // more curvy with data points instead of zig zag of a grid
         FacetBorderSegmenter.reduceSegmentComplexity(
@@ -1016,11 +1018,11 @@ define("facetBorderSegmenter", [
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Top &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Left) ||
+                        facetmanagement_1.OrientationEnum.Left) ||
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Left &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Top)
+                        facetmanagement_1.OrientationEnum.Top)
                     ) {
                       const diagNeighbour = facetResult.facetMap.get(
                         curBorderPoint.x - 1,
@@ -1033,11 +1035,11 @@ define("facetBorderSegmenter", [
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Top &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Right) ||
+                        facetmanagement_1.OrientationEnum.Right) ||
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Right &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Top)
+                        facetmanagement_1.OrientationEnum.Top)
                     ) {
                       const diagNeighbour = facetResult.facetMap.get(
                         curBorderPoint.x + 1,
@@ -1050,11 +1052,11 @@ define("facetBorderSegmenter", [
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Bottom &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Left) ||
+                        facetmanagement_1.OrientationEnum.Left) ||
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Left &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Bottom)
+                        facetmanagement_1.OrientationEnum.Bottom)
                     ) {
                       const diagNeighbour = facetResult.facetMap.get(
                         curBorderPoint.x - 1,
@@ -1067,11 +1069,11 @@ define("facetBorderSegmenter", [
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Bottom &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Right) ||
+                        facetmanagement_1.OrientationEnum.Right) ||
                       (prevBorderPoint.orientation ===
                         facetmanagement_1.OrientationEnum.Right &&
                         curBorderPoint.orientation ===
-                          facetmanagement_1.OrientationEnum.Bottom)
+                        facetmanagement_1.OrientationEnum.Bottom)
                     ) {
                       const diagNeighbour = facetResult.facetMap.get(
                         curBorderPoint.x + 1,
@@ -1099,9 +1101,8 @@ define("facetBorderSegmenter", [
             // the points to the first segment if they have the same neighbour or construct a
             // new segment
             if (currentPoints.length > 1) {
-              const oldNeighbour = f.borderPath[
-                f.borderPath.length - 1
-              ].getNeighbour(facetResult);
+              const oldNeighbour =
+                f.borderPath[f.borderPath.length - 1].getNeighbour(facetResult);
               if (
                 segments.length > 0 &&
                 segments[0].neighbour === oldNeighbour
@@ -1219,7 +1220,7 @@ define("facetBorderSegmenter", [
       segmentsPerFacet,
       onUpdate = null
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         // max distance of the start/end points of the segment that it can be before the segments don't match up
         const MAX_DISTANCE = 4;
         // reserve room
@@ -1244,11 +1245,11 @@ define("facetBorderSegmenter", [
                 if (debug) {
                   console.log(
                     "Setting facet " +
-                      f.id +
-                      " segment " +
-                      s +
-                      " to " +
-                      f.borderSegments[s]
+                    f.id +
+                    " segment " +
+                    s +
+                    " to " +
+                    f.borderSegments[s]
                   );
                 }
                 if (segment.neighbour !== -1) {
@@ -1272,26 +1273,26 @@ define("facetBorderSegmenter", [
                         const nSegStartPoint = neighbourSegment.points[0];
                         const nSegEndPoint =
                           neighbourSegment.points[
-                            neighbourSegment.points.length - 1
+                          neighbourSegment.points.length - 1
                           ];
                         let matchesStraight =
                           segStartPoint.distanceTo(nSegStartPoint) <=
-                            MAX_DISTANCE &&
+                          MAX_DISTANCE &&
                           segEndPoint.distanceTo(nSegEndPoint) <= MAX_DISTANCE;
                         let matchesReverse =
                           segStartPoint.distanceTo(nSegEndPoint) <=
-                            MAX_DISTANCE &&
+                          MAX_DISTANCE &&
                           segEndPoint.distanceTo(nSegStartPoint) <=
-                            MAX_DISTANCE;
+                          MAX_DISTANCE;
                         if (matchesStraight && matchesReverse) {
                           // dang it , both match, it must be a tiny segment, but when placed wrongly it'll overlap in the path creating an hourglass
                           //  e.g. https://i.imgur.com/XZQhxRV.png
                           // determine which is the closest
                           if (
                             segStartPoint.distanceTo(nSegStartPoint) +
-                              segEndPoint.distanceTo(nSegEndPoint) <
+                            segEndPoint.distanceTo(nSegEndPoint) <
                             segStartPoint.distanceTo(nSegEndPoint) +
-                              segEndPoint.distanceTo(nSegStartPoint)
+                            segEndPoint.distanceTo(nSegStartPoint)
                           ) {
                             matchesStraight = true;
                             matchesReverse = false;
@@ -1305,22 +1306,21 @@ define("facetBorderSegmenter", [
                           if (debug) {
                             console.log(
                               "Match found for facet " +
-                                f.id +
-                                " to neighbour " +
-                                neighbourFacet.id
+                              f.id +
+                              " to neighbour " +
+                              neighbourFacet.id
                             );
                           }
-                          neighbourFacet.borderSegments[
-                            ns
-                          ] = new FacetBoundarySegment(segment, f.id, false);
+                          neighbourFacet.borderSegments[ns] =
+                            new FacetBoundarySegment(segment, f.id, false);
                           if (debug) {
                             console.log(
                               "Setting facet " +
-                                neighbourFacet.id +
-                                " segment " +
-                                ns +
-                                " to " +
-                                neighbourFacet.borderSegments[ns]
+                              neighbourFacet.id +
+                              " segment " +
+                              ns +
+                              " to " +
+                              neighbourFacet.borderSegments[ns]
                             );
                           }
                           segmentsPerFacet[neighbourFacet.id][ns] = null;
@@ -1331,22 +1331,21 @@ define("facetBorderSegmenter", [
                           if (debug) {
                             console.log(
                               "Reverse match found for facet " +
-                                f.id +
-                                " to neighbour " +
-                                neighbourFacet.id
+                              f.id +
+                              " to neighbour " +
+                              neighbourFacet.id
                             );
                           }
-                          neighbourFacet.borderSegments[
-                            ns
-                          ] = new FacetBoundarySegment(segment, f.id, true);
+                          neighbourFacet.borderSegments[ns] =
+                            new FacetBoundarySegment(segment, f.id, true);
                           if (debug) {
                             console.log(
                               "Setting facet " +
-                                neighbourFacet.id +
-                                " segment " +
-                                ns +
-                                " to " +
-                                neighbourFacet.borderSegments[ns]
+                              neighbourFacet.id +
+                              " segment " +
+                              ns +
+                              " to " +
+                              neighbourFacet.borderSegments[ns]
                             );
                           }
                           segmentsPerFacet[neighbourFacet.id][ns] = null;
@@ -1363,14 +1362,14 @@ define("facetBorderSegmenter", [
                     // cover all cases
                     console.error(
                       "No match found for segment of " +
-                        f.id +
-                        ": " +
-                        ("siding " +
-                          segment.neighbour +
-                          " " +
-                          segment.points[0] +
-                          " -> " +
-                          segment.points[segment.points.length - 1])
+                      f.id +
+                      ": " +
+                      ("siding " +
+                        segment.neighbour +
+                        " " +
+                        segment.points[0] +
+                        " -> " +
+                        segment.points[segment.points.length - 1])
                     );
                   }
                 }
@@ -1401,8 +1400,8 @@ define("facetBorderTracer", [
   "common",
   "structs/point",
   "structs/typedarrays",
-  "facetmanagement"
-], function(
+  "facetmanagement",
+], function (
   require,
   exports,
   common_3,
@@ -1418,7 +1417,7 @@ define("facetBorderTracer", [
      *  Imagine placing walls around the outer side of the border points.
      */
     static buildFacetBorderPaths(facetResult, onUpdate = null) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         let count = 0;
         const borderMask = new typedarrays_2.BooleanArray2D(
           facetResult.width,
@@ -1426,16 +1425,16 @@ define("facetBorderTracer", [
         );
         // sort by biggest facets first
         const facetProcessingOrder = facetResult.facets
-          .filter(f => f != null)
+          .filter((f) => f != null)
           .slice(0)
           .sort((a, b) =>
             b.pointCount > a.pointCount
               ? 1
               : b.pointCount < a.pointCount
-              ? -1
-              : 0
+                ? -1
+                : 0
           )
-          .map(f => f.id);
+          .map((f) => f.id);
         for (let fidx = 0; fidx < facetProcessingOrder.length; fidx++) {
           const f = facetResult.facets[facetProcessingOrder[fidx]];
           if (f != null) {
@@ -1466,8 +1465,8 @@ define("facetBorderTracer", [
               if (
                 f.borderPoints[i].x === f.bbox.minX ||
                 f.borderPoints[i].x === f.bbox.maxX ||
-                (f.borderPoints[i].y === f.bbox.minY ||
-                  f.borderPoints[i].y === f.bbox.maxY)
+                f.borderPoints[i].y === f.bbox.minY ||
+                f.borderPoints[i].y === f.bbox.maxY
               ) {
                 borderStartIndex = i;
                 break;
@@ -2082,7 +2081,7 @@ define("facetBorderTracer", [
 });
 // Faster flood fill from
 // http://www.adammil.net/blog/v126_A_More_Efficient_Flood_Fill.html
-define("lib/fill", ["require", "exports"], function(require, exports) {
+define("lib/fill", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   function fill(x, y, width, height, visited, setFill) {
@@ -2151,14 +2150,14 @@ define("lib/fill", ["require", "exports"], function(require, exports) {
       // the end, as in the case of |*****|, where the first row is 5 cells long and the second row is 3 cells long.
       // we must look to the right  |*** *| of the single cell at the end of the second row, i.e. at (4,1)
       if (rowLength < lastRowLength) {
-        for (const end = x + lastRowLength; ++sx < end; ) {
+        for (const end = x + lastRowLength; ++sx < end;) {
           // there. any clear cells would have been connected to the previous
           if (!visited(sx, y)) {
             fillCore(sx, y, width, height, visited, setFill);
           } // row. the cells up and left must be set so use FillCore
         }
       } else if (rowLength > lastRowLength && y !== 0) {
-        for (let ux = x + lastRowLength; ++ux < sx; ) {
+        for (let ux = x + lastRowLength; ++ux < sx;) {
           if (!visited(ux, y - 1)) {
             fill(ux, y - 1, width, height, visited, setFill);
           } // since there may be clear cells up and left, use _Fill
@@ -2174,8 +2173,8 @@ define("facetReducer", [
   "colorreductionmanagement",
   "common",
   "facetCreator",
-  "structs/typedarrays"
-], function(
+  "structs/typedarrays",
+], function (
   require,
   exports,
   colorreductionmanagement_1,
@@ -2198,30 +2197,31 @@ define("facetReducer", [
       imgColorIndices,
       onUpdate = null
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         const visitedCache = new typedarrays_3.BooleanArray2D(
           facetResult.width,
           facetResult.height
         );
         // build the color distance matrix, which describes the distance of each color to each other
-        const colorDistances = colorreductionmanagement_1.ColorReducer.buildColorDistanceMatrix(
-          colorsByIndex
-        );
+        const colorDistances =
+          colorreductionmanagement_1.ColorReducer.buildColorDistanceMatrix(
+            colorsByIndex
+          );
         // process facets from large to small. This results in better consistency with the original image
         // because the small facets act as boundary for the large merges keeping them mostly in place of where they should remain
         // then afterwards the smaller ones are deleted which will just end up completely isolated and thus entirely replaced
         // with the outer facet. But then again, what do I know, I'm just a comment.
         const facetProcessingOrder = facetResult.facets
-          .filter(f => f != null)
+          .filter((f) => f != null)
           .slice(0)
           .sort((a, b) =>
             b.pointCount > a.pointCount
               ? 1
               : b.pointCount < a.pointCount
-              ? -1
-              : 0
+                ? -1
+                : 0
           )
-          .map(f => f.id);
+          .map((f) => f.id);
         if (!removeFacetsFromLargeToSmall) {
           facetProcessingOrder.reverse();
         }
@@ -2246,7 +2246,7 @@ define("facetReducer", [
             }
           }
         }
-        let facetCount = facetResult.facets.filter(f => f != null).length;
+        let facetCount = facetResult.facets.filter((f) => f != null).length;
         if (facetCount > maximumNumberOfFacets) {
           console.log(
             `There are still ${facetCount} facets, more than the maximum of ${maximumNumberOfFacets}. Removing the smallest facets`
@@ -2257,16 +2257,16 @@ define("facetReducer", [
           // because facets can be merged, reevaluate the order of facets to make sure the smallest one is removed
           // this is slower but more accurate
           const facetProcessingOrder = facetResult.facets
-            .filter(f => f != null)
+            .filter((f) => f != null)
             .slice(0)
             .sort((a, b) =>
               b.pointCount > a.pointCount
                 ? 1
                 : b.pointCount < a.pointCount
-                ? -1
-                : 0
+                  ? -1
+                  : 0
             )
-            .map(f => f.id)
+            .map((f) => f.id)
             .reverse();
           const facetToRemove = facetResult.facets[facetProcessingOrder[0]];
           FacetReducer.deleteFacet(
@@ -2276,16 +2276,16 @@ define("facetReducer", [
             colorDistances,
             visitedCache
           );
-          facetCount = facetResult.facets.filter(f => f != null).length;
+          facetCount = facetResult.facets.filter((f) => f != null).length;
           if (new Date().getTime() - curTime > 500) {
             curTime = new Date().getTime();
             yield common_4.delay(0);
             if (onUpdate != null) {
               onUpdate(
                 0.5 +
-                  0.5 -
-                  (facetCount - maximumNumberOfFacets) /
-                    (startFacetCount - maximumNumberOfFacets)
+                0.5 -
+                (facetCount - maximumNumberOfFacets) /
+                (startFacetCount - maximumNumberOfFacets)
               );
             }
           }
@@ -2428,9 +2428,7 @@ define("facetReducer", [
         for (let x = facet.bbox.minX; x <= facet.bbox.maxX; x++) {
           if (facetResult.facetMap.get(x, y) === facet.id) {
             console.warn(
-              `Point ${x},${y} was reallocated to neighbours for facet ${
-                facet.id
-              }`
+              `Point ${x},${y} was reallocated to neighbours for facet ${facet.id}`
             );
             needsToRebuild = true;
             if (
@@ -2639,8 +2637,8 @@ define("facetCreator", [
   "structs/boundingbox",
   "structs/point",
   "structs/typedarrays",
-  "facetmanagement"
-], function(
+  "facetmanagement",
+], function (
   require,
   exports,
   common_5,
@@ -2657,7 +2655,7 @@ define("facetCreator", [
      *  Constructs the facets with its border points for each area of pixels of the same color
      */
     static getFacets(width, height, imgColorIndices, onUpdate = null) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         const result = new facetmanagement_3.FacetResult();
         result.width = width;
         result.height = height;
@@ -2864,7 +2862,7 @@ define("facetCreator", [
   }
   exports.FacetCreator = FacetCreator;
 });
-define("lib/datastructs", ["require", "exports"], function(require, exports) {
+define("lib/datastructs", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   class Map {
@@ -3118,7 +3116,7 @@ define("lib/datastructs", ["require", "exports"], function(require, exports) {
   }
   exports.PriorityQueue = PriorityQueue;
 });
-define("lib/polylabel", ["require", "exports", "lib/datastructs"], function(
+define("lib/polylabel", ["require", "exports", "lib/datastructs"], function (
   require,
   exports,
   datastructs_1
@@ -3275,8 +3273,8 @@ define("facetLabelPlacer", [
   "common",
   "lib/polylabel",
   "structs/boundingbox",
-  "facetCreator"
-], function(
+  "facetCreator",
+], function (
   require,
   exports,
   common_6,
@@ -3296,7 +3294,7 @@ define("facetLabelPlacer", [
      *  within the facet as additional polygon rings (why does everything look so easy to do yet never is under the hood :/)
      */
     static buildFacetLabelBounds(facetResult, onUpdate = null) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         let count = 0;
         for (const f of facetResult.facets) {
           if (f != null) {
@@ -3313,14 +3311,16 @@ define("facetLabelPlacer", [
               facetCreator_2.FacetCreator.buildFacetNeighbour(f, facetResult);
             }
             for (const neighbourIdx of f.neighbourFacets) {
-              const neighbourPath = facetResult.facets[
-                neighbourIdx
-              ].getFullPathFromBorderSegments(true);
-              const fallsInside = FacetLabelPlacer.doesNeighbourFallInsideInCurrentFacet(
-                neighbourPath,
-                f,
-                onlyOuterRing
-              );
+              const neighbourPath =
+                facetResult.facets[neighbourIdx].getFullPathFromBorderSegments(
+                  true
+                );
+              const fallsInside =
+                FacetLabelPlacer.doesNeighbourFallInsideInCurrentFacet(
+                  neighbourPath,
+                  f,
+                  onlyOuterRing
+                );
               if (fallsInside) {
                 polyRings.push(neighbourPath);
               }
@@ -3403,8 +3403,8 @@ define("guiprocessmanager", [
   "facetmanagement",
   "facetReducer",
   "gui",
-  "structs/point"
-], function(
+  "structs/point",
+], function (
   require,
   exports,
   colorreductionmanagement_2,
@@ -3420,14 +3420,14 @@ define("guiprocessmanager", [
 ) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  class ProcessResult {}
+  class ProcessResult { }
   exports.ProcessResult = ProcessResult;
   /**
    *  Manages the GUI states & processes the image step by step
    */
   class GUIProcessManager {
     static process(settings, cancellationToken) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         const c = document.getElementById("canvas");
         const ctx = c.getContext("2d");
         let imgData = ctx.getImageData(0, 0, c.width, c.height);
@@ -3476,9 +3476,8 @@ define("guiprocessmanager", [
         let facetResult = new facetmanagement_4.FacetResult();
         let colormapResult = new colorreductionmanagement_2.ColorMapResult();
         // build color map
-        colormapResult = colorreductionmanagement_2.ColorReducer.createColorMap(
-          kmeansImgData
-        );
+        colormapResult =
+          colorreductionmanagement_2.ColorReducer.createColorMap(kmeansImgData);
         if (settings.narrowPixelStripCleanupRuns === 0) {
           // facet building
           facetResult = yield GUIProcessManager.processFacetBuilding(
@@ -3522,12 +3521,13 @@ define("guiprocessmanager", [
           cancellationToken
         );
         // facet border segmentation
-        const cBorderSegment = yield GUIProcessManager.processFacetBorderSegmentation(
-          facetResult,
-          tabsOutput,
-          settings,
-          cancellationToken
-        );
+        const cBorderSegment =
+          yield GUIProcessManager.processFacetBorderSegmentation(
+            facetResult,
+            tabsOutput,
+            settings,
+            cancellationToken
+          );
         // facet label placement
         yield GUIProcessManager.processFacetLabelPlacement(
           facetResult,
@@ -3549,7 +3549,7 @@ define("guiprocessmanager", [
       settings,
       cancellationToken
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("K-means clustering");
         const cKmeans = document.getElementById("cKMeans");
         cKmeans.width = imgData.width;
@@ -3570,7 +3570,7 @@ define("guiprocessmanager", [
           kmeansImgData,
           ctx,
           settings,
-          kmeans => {
+          (kmeans) => {
             const progress =
               (100 -
                 (kmeans.currentDeltaDistanceDifference > 100
@@ -3592,14 +3592,14 @@ define("guiprocessmanager", [
       });
     }
     static processFacetBuilding(colormapResult, cancellationToken) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("Facet building");
         $(".status.facetBuilding").addClass("active");
         const facetResult = yield facetCreator_3.FacetCreator.getFacets(
           colormapResult.width,
           colormapResult.height,
           colormapResult.imgColorIndices,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -3622,7 +3622,7 @@ define("guiprocessmanager", [
       colormapResult,
       cancellationToken
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("Facet reduction");
         const cReduction = document.getElementById("cReduction");
         cReduction.width = facetResult.width;
@@ -3645,7 +3645,7 @@ define("guiprocessmanager", [
           colormapResult.colorsByIndex,
           facetResult,
           colormapResult.imgColorIndices,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -3679,7 +3679,7 @@ define("guiprocessmanager", [
       facetResult,
       cancellationToken
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("Facet border tracing");
         tabsOutput.select("borderpath-pane");
         const cBorderPath = document.getElementById("cBorderPath");
@@ -3689,7 +3689,7 @@ define("guiprocessmanager", [
         $(".status.facetBorderPath").addClass("active");
         yield facetBorderTracer_1.FacetBorderTracer.buildFacetBorderPaths(
           facetResult,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -3729,7 +3729,7 @@ define("guiprocessmanager", [
       settings,
       cancellationToken
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("Facet border segmentation");
         const cBorderSegment = document.getElementById("cBorderSegmentation");
         cBorderSegment.width = facetResult.width;
@@ -3740,7 +3740,7 @@ define("guiprocessmanager", [
         yield facetBorderSegmenter_1.FacetBorderSegmenter.buildFacetBorderSegments(
           facetResult,
           settings.nrOfTimesToHalveBorderSegments,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -3781,7 +3781,7 @@ define("guiprocessmanager", [
       tabsOutput,
       cancellationToken
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         gui_1.time("Facet label placement");
         const cLabelPlacement = document.getElementById("cLabelPlacement");
         cLabelPlacement.width = facetResult.width;
@@ -3799,7 +3799,7 @@ define("guiprocessmanager", [
         $(".status.facetLabelPlacement").addClass("active");
         yield facetLabelPlacer_1.FacetLabelPlacer.buildFacetLabelBounds(
           facetResult,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -3840,7 +3840,7 @@ define("guiprocessmanager", [
       fontColor = "black",
       onUpdate = null
     ) {
-      return __awaiter(this, void 0, void 0, function*() {
+      return __awaiter(this, void 0, void 0, function* () {
         const xmlns = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(xmlns, "svg");
         svg.setAttribute("width", sizeMultiplier * facetResult.width + "");
@@ -3910,16 +3910,14 @@ define("guiprocessmanager", [
               // make the border the same color as the fill color if there is no border stroke
               // to not have gaps in between facets
               if (fill) {
-                svgPath.style.stroke = `rgb(${colorsByIndex[f.color][0]},${
-                  colorsByIndex[f.color][1]
-                },${colorsByIndex[f.color][2]})`;
+                svgPath.style.stroke = `rgb(${colorsByIndex[f.color][0]},${colorsByIndex[f.color][1]
+                  },${colorsByIndex[f.color][2]})`;
               }
             }
             svgPath.style.strokeWidth = "1px"; // Set stroke width
             if (fill) {
-              svgPath.style.fill = `rgb(${colorsByIndex[f.color][0]},${
-                colorsByIndex[f.color][1]
-              },${colorsByIndex[f.color][2]})`;
+              svgPath.style.fill = `rgb(${colorsByIndex[f.color][0]},${colorsByIndex[f.color][1]
+                },${colorsByIndex[f.color][2]})`;
             } else {
               svgPath.style.fill = "none";
             }
@@ -3975,10 +3973,10 @@ define("guiprocessmanager", [
               g.setAttribute(
                 "transform",
                 "translate(" +
-                  f.labelBounds.minX * sizeMultiplier +
-                  "," +
-                  f.labelBounds.minY * sizeMultiplier +
-                  ")"
+                f.labelBounds.minX * sizeMultiplier +
+                "," +
+                f.labelBounds.minY * sizeMultiplier +
+                ")"
               );
               g.appendChild(subsvg);
               svg.appendChild(g);
@@ -4009,8 +4007,8 @@ define("gui", [
   "exports",
   "common",
   "guiprocessmanager",
-  "settings"
-], function(require, exports, common_8, guiprocessmanager_1, settings_2) {
+  "settings",
+], function (require, exports, common_8, guiprocessmanager_1, settings_2) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   let processResult = null;
@@ -4066,6 +4064,9 @@ define("gui", [
     settings.resizeImageIfTooLarge = $("#chkResizeImage").prop("checked");
     settings.resizeImageWidth = parseInt($("#txtResizeWidth").val() + "");
     settings.resizeImageHeight = parseInt($("#txtResizeHeight").val() + "");
+
+    // COLORS ######################
+
     const restrictedColorLines = (
       $("#txtKMeansColorRestrictions").val() + ""
     ).split("\n");
@@ -4095,7 +4096,7 @@ define("gui", [
   }
   exports.parseSettings = parseSettings;
   function process() {
-    return __awaiter(this, void 0, void 0, function*() {
+    return __awaiter(this, void 0, void 0, function* () {
       try {
         const settings = parseSettings();
         // cancel old process & create new
@@ -4117,7 +4118,7 @@ define("gui", [
   }
   exports.process = process;
   function updateOutput() {
-    return __awaiter(this, void 0, void 0, function*() {
+    return __awaiter(this, void 0, void 0, function* () {
       if (processResult != null) {
         const showLabels = $("#chkShowLabels").prop("checked");
         const fill = $("#chkFillFacets").prop("checked");
@@ -4137,7 +4138,7 @@ define("gui", [
           showLabels,
           fontSize,
           fontColor,
-          progress => {
+          (progress) => {
             if (cancellationToken.isCancelled) {
               throw new Error("Cancelled");
             }
@@ -4147,9 +4148,7 @@ define("gui", [
             );
           }
         );
-        $("#svgContainer")
-          .empty()
-          .append(svg);
+        $("#svgContainer").empty().append(svg);
         $("#palette")
           .empty()
           .append(createPaletteHtml(processResult.colorsByIndex));
@@ -4165,12 +4164,8 @@ define("gui", [
     for (let c = 0; c < colorsByIndex.length; c++) {
       const style =
         "background-color: " +
-        `rgb(${colorsByIndex[c][0]},${colorsByIndex[c][1]},${
-          colorsByIndex[c][2]
-        })`;
-      html += `<div class="color" class="tooltipped" style="${style}" data-tooltip="${
-        colorsByIndex[c][0]
-      },${colorsByIndex[c][1]},${colorsByIndex[c][2]}">${c}</div>`;
+        `rgb(${colorsByIndex[c][0]},${colorsByIndex[c][1]},${colorsByIndex[c][2]})`;
+      html += `<div class="color" class="tooltipped" style="${style}" data-tooltip="${colorsByIndex[c][0]},${colorsByIndex[c][1]},${colorsByIndex[c][2]}">${c}</div>`;
     }
     return $(html);
   }
@@ -4254,7 +4249,7 @@ define("gui", [
       const svgData = svgEl.outerHTML;
       const preface = '<?xml version="1.0" standalone="no"?>\r\n';
       const svgBlob = new Blob([preface, svgData], {
-        type: "image/svg+xml;charset=utf-8"
+        type: "image/svg+xml;charset=utf-8",
       });
       const svgUrl = URL.createObjectURL(svgBlob);
       const downloadLink = document.createElement("a");
@@ -4286,7 +4281,7 @@ define("gui", [
   }
   exports.loadExample = loadExample;
 });
-define("lib/clipboard", ["require", "exports"], function(require, exports) {
+define("lib/clipboard", ["require", "exports"], function (require, exports) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   // From https://stackoverflow.com/a/35576409/694640
@@ -4314,7 +4309,7 @@ define("lib/clipboard", ["require", "exports"], function(require, exports) {
       // }, false); // firefox fix
       document.addEventListener(
         "paste",
-        function(e) {
+        function (e) {
           _self.paste_auto(e);
         },
         false
@@ -4331,8 +4326,8 @@ define("lib/clipboard", ["require", "exports"], function(require, exports) {
       document.body.appendChild(this.pasteCatcher);
       const _self = this;
       // create an observer instance
-      const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+      const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
           if (
             _self.paste_event_support === true ||
             _self.ctrl_pressed === false ||
@@ -4348,7 +4343,7 @@ define("lib/clipboard", ["require", "exports"], function(require, exports) {
               _self.paste_createImage(mutation.addedNodes[0].src);
             }
             // register cleanup after some time.
-            setTimeout(function() {
+            setTimeout(function () {
               _self.pasteCatcher.innerHTML = "";
             }, 20);
           }
@@ -4426,7 +4421,7 @@ define("lib/clipboard", ["require", "exports"], function(require, exports) {
     paste_createImage(source) {
       const pastedImage = new Image();
       const self = this;
-      pastedImage.onload = function() {
+      pastedImage.onload = function () {
         if (self.autoresize === true) {
           // resize
           self.canvas.width = pastedImage.width;
@@ -4442,7 +4437,7 @@ define("lib/clipboard", ["require", "exports"], function(require, exports) {
   }
   exports.Clipboard = Clipboard;
 });
-define("main", ["require", "exports", "gui", "lib/clipboard"], function(
+define("main", ["require", "exports", "gui", "lib/clipboard"], function (
   require,
   exports,
   gui_2,
@@ -4450,15 +4445,15 @@ define("main", ["require", "exports", "gui", "lib/clipboard"], function(
 ) {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  $(document).ready(function() {
+  $(document).ready(function () {
     $(".tabs").tabs();
     $(".tooltipped").tooltip();
     const clip = new clipboard_1.Clipboard("canvas", true);
-    $("#file").change(function(ev) {
+    $("#file").change(function (ev) {
       const files = $("#file").get(0).files;
       if (files !== null && files.length > 0) {
         const reader = new FileReader();
-        reader.onloadend = function() {
+        reader.onloadend = function () {
           const img = document.createElement("img");
           img.onload = () => {
             const c = document.getElementById("canvas");
@@ -4476,8 +4471,8 @@ define("main", ["require", "exports", "gui", "lib/clipboard"], function(
       }
     });
     gui_2.loadExample("imgSmall");
-    $("#btnProcess").click(function() {
-      return __awaiter(this, void 0, void 0, function*() {
+    $("#btnProcess").click(function () {
+      return __awaiter(this, void 0, void 0, function* () {
         try {
           yield gui_2.process();
         } catch (err) {
@@ -4488,17 +4483,17 @@ define("main", ["require", "exports", "gui", "lib/clipboard"], function(
     $(
       "#chkShowLabels, #chkFillFacets, #chkShowBorders, #txtSizeMultiplier, #txtLabelFontSize, #txtLabelFontColor"
     ).change(() =>
-      __awaiter(this, void 0, void 0, function*() {
+      __awaiter(this, void 0, void 0, function* () {
         yield gui_2.updateOutput();
       })
     );
-    $("#btnDownloadSVG").click(function() {
+    $("#btnDownloadSVG").click(function () {
       gui_2.downloadSVG();
     });
-    $("#btnDownloadPNG").click(function() {
+    $("#btnDownloadPNG").click(function () {
       gui_2.downloadPNG();
     });
-    $("#btnDownloadPalettePNG").click(function() {
+    $("#btnDownloadPalettePNG").click(function () {
       gui_2.downloadPalettePng();
     });
     $("#lnkTrivial").click(() => {
@@ -4515,4 +4510,4 @@ define("main", ["require", "exports", "gui", "lib/clipboard"], function(
     });
   });
 });
-requirejs(["main"])
+requirejs(["main"]);
